@@ -1,0 +1,42 @@
+.main {
+  text-align: center;
+  background-color: #f7f9fa;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.gridContainer{
+  width: 40%;
+}
+
+.cell{
+  background-color: #ffffff;
+}
+
+.columnHeaders{
+  background-color: #838383;
+  font-size:medium;
+}
+
+.header{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 9%;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  align-items: center;
+  padding-left: 3%;
+}
+.header > h2{
+  padding-left: 20px;
+}
+.logo{
+  background-color: #e4e4e4;
+  border-radius: 100%;
+  width: 70px;
+  padding: 12px 1px;
+}
