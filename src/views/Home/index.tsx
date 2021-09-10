@@ -21,20 +21,6 @@ function App() {
       sort: 'asc',
     },
   ])
-  const getApi = async () => {
-    const {data} = await api.get<ApiResponse>('/?results=10')
-    const mappedRows = data.results.map((v) => ({
-      id: v.login.uuid,
-      name: `${v.name.first} ${v.name.last}`,
-      gender: v.gender,
-      birth: new Date(v.dob.date).toLocaleDateString(),
-      actions: '',
-    }))
-    setRows(mappedRows)
-  }
-  useEffect(() => {
-    getApi()
-  }, [])
 
   return (
     <div className="main">
