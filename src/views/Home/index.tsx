@@ -4,6 +4,8 @@ import api, {ApiResponse} from '../../services/api'
 import './Home.css'
 import {columns} from './columns'
 import pharmaLogo from 'assets/pharmaLogo.png'
+import {ListContextProvider} from 'context/ListContext'
+import {useList} from 'hooks/useList'
 
 type tableRow = {
   id: string
@@ -13,28 +15,27 @@ type tableRow = {
   actions: string
 }
 
-function App() {
+function Home() {
+  const {list, seed} = useList()
   const [rows, setRows] = useState<tableRow[]>([] as tableRow[])
+  useEffect(() => {
+    setRows(
+      list.map((v) => ({
+        id: v.login.uuid,
+        birth: new Date(v.dob.date).toLocaleDateString(),
+        gender: v.gender,
+        name: v.name.first + ' ' + v.name.last,
+        actions: '',
+      }))
+    )
+  }, [list])
+
   const [sorted, setSorted] = useState<GridSortModel>([
     {
       field: 'name',
       sort: 'asc',
     },
   ])
-  const getApi = async () => {
-    const {data} = await api.get<ApiResponse>('/?results=10')
-    const mappedRows = data.results.map((v) => ({
-      id: v.login.uuid,
-      name: `${v.name.first} ${v.name.last}`,
-      gender: v.gender,
-      birth: new Date(v.dob.date).toLocaleDateString(),
-      actions: '',
-    }))
-    setRows(mappedRows)
-  }
-  useEffect(() => {
-    getApi()
-  }, [])
 
   return (
     <div className="main">
@@ -59,4 +60,10 @@ function App() {
   )
 }
 
-export default App
+export default function App() {
+  return (
+    <ListContextProvider>
+      <Home />
+    </ListContextProvider>
+  )
+}
