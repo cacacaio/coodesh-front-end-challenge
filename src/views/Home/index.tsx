@@ -5,7 +5,8 @@ import {columns} from './columns'
 import pharmaLogo from 'assets/pharmaLogo.png'
 import {ListContextProvider} from 'context/ListContext'
 import {useList} from 'hooks/useList'
-import {Button, CircularProgress, Paper} from '@material-ui/core'
+import {Button, CircularProgress, Paper, TextField} from '@material-ui/core'
+import Filter from 'components/Filter'
 
 function Home() {
   const {nextPage, rows} = useList()
@@ -28,32 +29,36 @@ function Home() {
         <img src={pharmaLogo} alt="Logo Pharma" className="logo" />
         <h2>Pharma Inc.</h2>
       </Paper>
-      <div className="gridContainer">
-        <DataGrid
-          columns={columns}
-          rows={rows}
-          disableSelectionOnClick
-          autoHeight
-          hideFooter
-          showCellRightBorder
-          sortModel={sorted}
-          autoPageSize
-          onSortModelChange={(model) => setSorted(model)}
-        ></DataGrid>
-      </div>
+      <div className="content">
+        <Filter></Filter>
+        <div className="gridContainer">
+          <DataGrid
+            columns={columns}
+            rows={rows}
+            disableSelectionOnClick
+            autoHeight
+            hideFooter
+            showCellRightBorder
+            showColumnRightBorder
+            sortModel={sorted}
+            autoPageSize
+            onSortModelChange={(model) => setSorted(model)}
+          ></DataGrid>
+        </div>
 
-      {isLoading ? (
-        <div className="loading">
-          <CircularProgress />
-          <span>Loading More...</span>
-        </div>
-      ) : (
-        <div className="loading">
-          <Button variant="contained" color="primary" onClick={handleLoad}>
-            Carregar Mais
-          </Button>
-        </div>
-      )}
+        {isLoading ? (
+          <div className="loading">
+            <CircularProgress />
+            <span>Loading More...</span>
+          </div>
+        ) : (
+          <div className="loading">
+            <Button variant="contained" color="primary" onClick={handleLoad}>
+              Load More
+            </Button>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

@@ -7,6 +7,7 @@ type ContextType = {
   list: Results[]
   nextPage: () => Promise<void>
   rows: tableRow[]
+  handleFilter: (value: string) => void
 }
 
 type Props = {
@@ -28,6 +29,14 @@ function ListContextProvider({children}: Props) {
   const [seed, setSeed] = useState('')
   const [rows, setRows] = useState<tableRow[]>([] as tableRow[])
   const [currentPage, setCurrentPage] = useState(1)
+  const mapRows = (results: Results[]) =>
+    results.map((v) => ({
+      id: v.login.uuid,
+      name: `${v.name.first} ${v.name.last}`,
+      gender: v.gender,
+      birth: new Date(v.dob.date).toLocaleDateString(),
+      actions: '',
+    }))
   const getApi = async (page: number) => {
     const {data} = await api.get<ApiResponse>('/', {
       params: {
@@ -38,19 +47,16 @@ function ListContextProvider({children}: Props) {
     })
     setSeed(data.info.seed)
     setList([...list, ...data.results])
-    const mappedRows = data.results.map((v) => ({
-      id: v.login.uuid,
-      name: `${v.name.first} ${v.name.last}`,
-      gender: v.gender,
-      birth: new Date(v.dob.date).toLocaleDateString(),
-      actions: '',
-    }))
-    setRows([...rows, ...mappedRows])
+    setRows([...rows, ...mapRows(data.results)])
   }
   const nextPage = async () => {
     const nextPage = currentPage + 1
     setCurrentPage(nextPage)
     await getApi(nextPage)
+  }
+  const handleFilter = (value: string) => {
+    const filtered = mapRows(list).filter((v) => v.name.includes(value))
+    setRows(filtered)
   }
   useEffect(() => {
     getApi(1)
@@ -58,7 +64,7 @@ function ListContextProvider({children}: Props) {
   }, [])
 
   return (
-    <ListContext.Provider value={{list, seed, rows, nextPage}}>
+    <ListContext.Provider value={{list, seed, rows, nextPage, handleFilter}}>
       {children}
     </ListContext.Provider>
   )

@@ -1,11 +1,17 @@
 .main {
   text-align: center;
-  background-color: #f7f9fa;
   min-height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  
+}
+
+.content{
+  padding-top: 8%;
+  width: 100vw;
+  display: flex;
+  text-align: center;
   flex-direction: column;
+  align-items: center;
 }
 
 .gridContainer{
@@ -14,7 +20,6 @@
   justify-content: center;
   align-items: center;
   align-content: center;
-  margin-top: 10%;
 }
 
 .cell{
@@ -22,7 +27,7 @@
 }
 
 .columnHeaders{
-  background-color: #838383;
+  background-color: #b8b8b8;
   font-size:medium;
 }
 
@@ -54,3 +59,4 @@
   gap: 20px;
   font-size: large;
 }
+
