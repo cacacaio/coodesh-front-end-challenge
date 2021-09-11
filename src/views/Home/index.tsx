@@ -1,61 +1,59 @@
 import {DataGrid, GridSortModel} from '@material-ui/data-grid'
-import React, {useEffect, useState} from 'react'
-import api, {ApiResponse} from '../../services/api'
+import React, {FormEvent, useState} from 'react'
 import './Home.css'
 import {columns} from './columns'
 import pharmaLogo from 'assets/pharmaLogo.png'
 import {ListContextProvider} from 'context/ListContext'
 import {useList} from 'hooks/useList'
-
-type tableRow = {
-  id: string
-  name: string
-  gender: string
-  birth: string
-  actions: string
-}
+import {Button, CircularProgress, Paper} from '@material-ui/core'
 
 function Home() {
-  const {list, seed} = useList()
-  const [rows, setRows] = useState<tableRow[]>([] as tableRow[])
-  useEffect(() => {
-    setRows(
-      list.map((v) => ({
-        id: v.login.uuid,
-        birth: new Date(v.dob.date).toLocaleDateString(),
-        gender: v.gender,
-        name: v.name.first + ' ' + v.name.last,
-        actions: '',
-      }))
-    )
-  }, [list])
-
+  const {nextPage, rows} = useList()
+  const [isLoading, setLoading] = useState(false)
   const [sorted, setSorted] = useState<GridSortModel>([
     {
       field: 'name',
       sort: 'asc',
     },
   ])
-
+  const handleLoad = async (e: FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    await nextPage()
+    setLoading(false)
+  }
   return (
     <div className="main">
-      <header className="header">
+      <Paper className="header" elevation={4}>
         <img src={pharmaLogo} alt="Logo Pharma" className="logo" />
         <h2>Pharma Inc.</h2>
-      </header>
+      </Paper>
       <div className="gridContainer">
         <DataGrid
           columns={columns}
-          pageSize={10}
           rows={rows}
           disableSelectionOnClick
           autoHeight
           hideFooter
           showCellRightBorder
           sortModel={sorted}
+          autoPageSize
           onSortModelChange={(model) => setSorted(model)}
         ></DataGrid>
       </div>
+
+      {isLoading ? (
+        <div className="loading">
+          <CircularProgress />
+          <span>Loading More...</span>
+        </div>
+      ) : (
+        <div className="loading">
+          <Button variant="contained" color="primary" onClick={handleLoad}>
+            Carregar Mais
+          </Button>
+        </div>
+      )}
     </div>
   )
 }
