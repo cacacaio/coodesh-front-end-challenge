@@ -1,8 +1,7 @@
 import {TextField} from '@material-ui/core'
 import {makeStyles} from '@material-ui/styles'
 import {useList} from 'hooks/useList'
-import React, {ChangeEvent, FormEvent, useState} from 'react'
-import {setConstantValue} from 'typescript'
+import React, {ChangeEvent, useState} from 'react'
 
 const useStyles = makeStyles({
   filters: {

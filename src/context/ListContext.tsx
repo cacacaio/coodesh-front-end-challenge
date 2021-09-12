@@ -1,6 +1,7 @@
-import {createContext, ReactNode} from 'react'
+import {createContext, ReactElement, ReactNode} from 'react'
 import React, {useEffect, useState} from 'react'
 import api, {ApiResponse, Results} from 'services/api'
+import {Button} from '@material-ui/core'
 
 type ContextType = {
   seed: string
@@ -19,9 +20,13 @@ type tableRow = {
   name: string
   gender: string
   birth: string
-  actions: string
+  actions: actions
 }
 
+type actions = {
+  seed: string
+  id: string
+}
 const ListContext = createContext<ContextType>({} as ContextType)
 
 function ListContextProvider({children}: Props) {
@@ -29,13 +34,13 @@ function ListContextProvider({children}: Props) {
   const [seed, setSeed] = useState('')
   const [rows, setRows] = useState<tableRow[]>([] as tableRow[])
   const [currentPage, setCurrentPage] = useState(1)
-  const mapRows = (results: Results[]) =>
-    results.map((v) => ({
-      id: v.login.uuid,
-      name: `${v.name.first} ${v.name.last}`,
-      gender: v.gender,
-      birth: new Date(v.dob.date).toLocaleDateString(),
-      actions: '',
+  const mapRows = (results: Results[], seed: string) =>
+    results.map((user) => ({
+      id: user.login.uuid,
+      name: `${user.name.first} ${user.name.last}`,
+      gender: user.gender,
+      birth: new Date(user.dob.date).toLocaleDateString(),
+      actions: {seed: seed, id: user.login.uuid},
     }))
   const getApi = async (page: number) => {
     const {data} = await api.get<ApiResponse>('/', {
@@ -47,7 +52,7 @@ function ListContextProvider({children}: Props) {
     })
     setSeed(data.info.seed)
     setList([...list, ...data.results])
-    setRows([...rows, ...mapRows(data.results)])
+    setRows([...rows, ...mapRows(data.results, data.info.seed)])
   }
   const nextPage = async () => {
     const nextPage = currentPage + 1
@@ -55,7 +60,9 @@ function ListContextProvider({children}: Props) {
     await getApi(nextPage)
   }
   const handleFilter = (value: string) => {
-    const filtered = mapRows(list).filter((v) => v.name.includes(value))
+    const filtered = mapRows(list, seed).filter((v) =>
+      v.name.toLowerCase().includes(value.toLowerCase())
+    )
     setRows(filtered)
   }
   useEffect(() => {

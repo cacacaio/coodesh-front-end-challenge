@@ -1,16 +1,18 @@
 import {DataGrid, GridSortModel} from '@material-ui/data-grid'
 import React, {FormEvent, useState} from 'react'
 import './Home.css'
-import {columns} from './columns'
+import {useColumns} from './columns'
 import pharmaLogo from 'assets/pharmaLogo.png'
-import {ListContextProvider} from 'context/ListContext'
 import {useList} from 'hooks/useList'
-import {Button, CircularProgress, Paper, TextField} from '@material-ui/core'
+import {Button, CircularProgress, Paper} from '@material-ui/core'
 import Filter from 'components/Filter'
+import {useHistory, useLocation} from 'react-router'
 
-function Home() {
+export default function Home() {
   const {nextPage, rows} = useList()
   const [isLoading, setLoading] = useState(false)
+  const history = useHistory()
+  const columns = useColumns(history)
   const [sorted, setSorted] = useState<GridSortModel>([
     {
       field: 'name',
@@ -30,7 +32,7 @@ function Home() {
         <h2>Pharma Inc.</h2>
       </Paper>
       <div className="content">
-        <Filter></Filter>
+        <Filter />
         <div className="gridContainer">
           <DataGrid
             columns={columns}
@@ -60,13 +62,5 @@ function Home() {
         )}
       </div>
     </div>
-  )
-}
-
-export default function App() {
-  return (
-    <ListContextProvider>
-      <Home />
-    </ListContextProvider>
   )
 }
