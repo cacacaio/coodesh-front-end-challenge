@@ -37,7 +37,6 @@ export default function Home() {
             hideFooter
             showCellRightBorder
             showColumnRightBorder
-            sortModel={sorted}
             autoPageSize
           ></DataGrid>
         </div>
