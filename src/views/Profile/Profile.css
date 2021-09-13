@@ -11,13 +11,26 @@
     background-color: rgba(0, 0, 0, 0.308);
 }
 
-.modal{
-    background-color: rgb(255, 255, 255);
-    width: 30%;
-    height: 50%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+/* 720p */
+@media screen and (min-width: 1280px) and (max-width:1919px) {
+    .modal{
+        width: 30%;
+        height: 50%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        padding-bottom: 6rem;
+    }  
+}
+/* 1080p */
+@media screen and (max-width: 1920px) {
+    .modal{
+        width: 30%;
+        height: 50%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }  
 }
 .profile-pic{
     background-color: grey;
