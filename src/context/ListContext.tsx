@@ -1,7 +1,6 @@
-import {createContext, ReactElement, ReactNode} from 'react'
+import {createContext, ReactNode} from 'react'
 import React, {useEffect, useState} from 'react'
 import api, {ApiResponse, Results} from 'services/api'
-import {Button} from '@material-ui/core'
 
 type ContextType = {
   seed: string

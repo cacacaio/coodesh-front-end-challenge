@@ -6,19 +6,14 @@ import pharmaLogo from 'assets/pharmaLogo.png'
 import {useList} from 'hooks/useList'
 import {Button, CircularProgress, Paper} from '@material-ui/core'
 import Filter from 'components/Filter'
-import {useHistory, useLocation} from 'react-router'
+import {useHistory} from 'react-router'
 
 export default function Home() {
   const {nextPage, rows} = useList()
   const [isLoading, setLoading] = useState(false)
   const history = useHistory()
   const columns = useColumns(history)
-  const [sorted, setSorted] = useState<GridSortModel>([
-    {
-      field: 'name',
-      sort: 'asc',
-    },
-  ])
+
   const handleLoad = async (e: FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -44,7 +39,6 @@ export default function Home() {
             showColumnRightBorder
             sortModel={sorted}
             autoPageSize
-            onSortModelChange={(model) => setSorted(model)}
           ></DataGrid>
         </div>
 
