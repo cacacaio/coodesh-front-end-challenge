@@ -1,7 +1,7 @@
-import {useList} from 'hooks/useList'
-import React, {useEffect, useState} from 'react'
-import {useHistory, useParams} from 'react-router'
-import {Results} from 'services/api'
+import { useList } from 'hooks/useList'
+import React, { useEffect, useState } from 'react'
+import { useHistory, useParams } from 'react-router'
+import { Results } from 'services/api'
 import './Profile.css'
 type ProfileParams = {
   seed: string
@@ -9,11 +9,10 @@ type ProfileParams = {
 }
 
 export default function Profile() {
-  const {seed, id} = useParams<ProfileParams>()
+  const { seed, id } = useParams<ProfileParams>()
   const [user, setUser] = useState<Results>()
   const history = useHistory()
-  const {list} = useList()
-  console.log(user)
+  const { list } = useList()
   useEffect(() => {
     document.body.classList.add('lock')
     setUser(list.find((user) => user.login.uuid === id))
