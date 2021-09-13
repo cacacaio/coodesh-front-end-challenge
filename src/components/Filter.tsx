@@ -1,21 +1,21 @@
-import { TextField } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
-import { useList } from 'hooks/useList'
-import { ChangeEvent, useState } from 'react'
+import {TextField} from '@material-ui/core'
+import {makeStyles} from '@material-ui/styles'
+import {useList} from 'hooks/useList'
+import {ChangeEvent, useState} from 'react'
 
 const useStyles = makeStyles({
   filters: {
     width: '40%',
     display: 'flex',
     textAlign: 'left',
-    flexDirection: 'column'
-  }
+    flexDirection: 'column',
+  },
 })
 
 export default function Filter() {
   const [state, setState] = useState<string>()
   const classes = useStyles()
-  const { handleFilter } = useList()
+  const {handleFilter} = useList()
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setState(e.target.value)
     handleFilter(e.target.value)
@@ -26,9 +26,10 @@ export default function Filter() {
       <TextField
         label="Filter"
         variant="outlined"
-        style={{ marginBottom: 20, width: '100%' }}
+        style={{marginBottom: 20, width: '100%'}}
         onChange={handleChange}
-        value={state}></TextField>
+        value={state}
+      ></TextField>
     </div>
   )
 }

@@ -1,6 +1,6 @@
-import { createContext, ReactNode } from 'react'
-import { useEffect, useState } from 'react'
-import api, { ApiResponse, Results } from 'services/api'
+import {createContext, ReactNode} from 'react'
+import {useEffect, useState} from 'react'
+import api, {ApiResponse, Results} from 'services/api'
 
 type ContextType = {
   seed: string
@@ -26,9 +26,10 @@ type actions = {
   seed: string
   id: string
 }
+
 const ListContext = createContext<ContextType>({} as ContextType)
 
-function ListContextProvider({ children }: Props) {
+function ListContextProvider({children}: Props) {
   const [list, setList] = useState<Results[]>([] as Results[])
   const [seed, setSeed] = useState('')
   const [rows, setRows] = useState<tableRow[]>([] as tableRow[])
@@ -39,41 +40,47 @@ function ListContextProvider({ children }: Props) {
       name: `${user.name.first} ${user.name.last}`,
       gender: user.gender,
       birth: new Date(user.dob.date).toLocaleDateString(),
-      actions: { seed: seed, id: user.login.uuid }
+      actions: {seed: seed, id: user.login.uuid},
     }))
-  const getApi = async (page: number) => {
-    const { data } = await api.get<ApiResponse>('/', {
+
+  const getApi = async (page: number, seedQ?: string) => {
+    const {data} = await api.get<ApiResponse>('/', {
       params: {
         results: 50,
         page: page,
-        seed: seed
-      }
+        seed: seedQ || seed,
+      },
     })
     setSeed(data.info.seed)
     setList([...list, ...data.results])
     setRows([...rows, ...mapRows(data.results, data.info.seed)])
   }
+
   const nextPage = async () => {
     const nextPage = currentPage + 1
     setCurrentPage(nextPage)
     await getApi(nextPage)
   }
+
   const handleFilter = (value: string) => {
     const filtered = mapRows(list, seed).filter((v) =>
       v.name.toLowerCase().includes(value.toLowerCase())
     )
     setRows(filtered)
   }
+
   useEffect(() => {
-    getApi(1)
+    const query = window.location.pathname.split('/')
+    const seedQ = query[query.indexOf('profile') + 1]
+    getApi(1, seedQ)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
-    <ListContext.Provider value={{ list, seed, rows, nextPage, handleFilter }}>
+    <ListContext.Provider value={{list, seed, rows, nextPage, handleFilter}}>
       {children}
     </ListContext.Provider>
   )
 }
 
-export { ListContext, ListContextProvider }
+export {ListContext, ListContextProvider}
