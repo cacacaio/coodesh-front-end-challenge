@@ -1,15 +1,16 @@
-import {DataGrid, GridSortModel} from '@material-ui/data-grid'
-import React, {FormEvent, useState} from 'react'
+import { DataGrid } from '@material-ui/data-grid'
+import { FormEvent, useState } from 'react'
 import './Home.css'
-import {useColumns} from './columns'
+import { useColumns } from './columns'
 import pharmaLogo from 'assets/pharmaLogo.png'
-import {useList} from 'hooks/useList'
-import {Button, CircularProgress, Paper} from '@material-ui/core'
+import { useList } from 'hooks/useList'
+import { Paper } from '@material-ui/core'
 import Filter from 'components/Filter'
-import {useHistory} from 'react-router'
+import { useHistory } from 'react-router'
+import LoadButton from 'components/LoadButton'
 
 export default function Home() {
-  const {nextPage, rows} = useList()
+  const { nextPage, rows } = useList()
   const [isLoading, setLoading] = useState(false)
   const history = useHistory()
   const columns = useColumns(history)
@@ -37,22 +38,9 @@ export default function Home() {
             hideFooter
             showCellRightBorder
             showColumnRightBorder
-            autoPageSize
-          ></DataGrid>
+            autoPageSize></DataGrid>
         </div>
-
-        {isLoading ? (
-          <div className="loading">
-            <CircularProgress />
-            <span>Loading More...</span>
-          </div>
-        ) : (
-          <div className="loading">
-            <Button variant="contained" color="primary" onClick={handleLoad}>
-              Load More
-            </Button>
-          </div>
-        )}
+        <LoadButton isLoading={isLoading} handleLoad={handleLoad}></LoadButton>
       </div>
     </div>
   )

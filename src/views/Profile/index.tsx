@@ -1,5 +1,5 @@
 import { useList } from 'hooks/useList'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 import { Results } from 'services/api'
 import './Profile.css'
@@ -21,8 +21,8 @@ export default function Profile() {
     }
   }, [id])
   return (
-    <div className="modal-container">
-      <div className="modal" onClick={() => history.goBack()}>
+    <div className="modal-container" onClick={() => history.goBack()}>
+      <div className="modal">
         <h2>Teste</h2>
       </div>
     </div>

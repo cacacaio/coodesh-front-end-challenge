@@ -1,6 +1,6 @@
-import {createContext, ReactNode} from 'react'
-import React, {useEffect, useState} from 'react'
-import api, {ApiResponse, Results} from 'services/api'
+import { createContext, ReactNode } from 'react'
+import { useEffect, useState } from 'react'
+import api, { ApiResponse, Results } from 'services/api'
 
 type ContextType = {
   seed: string
@@ -28,7 +28,7 @@ type actions = {
 }
 const ListContext = createContext<ContextType>({} as ContextType)
 
-function ListContextProvider({children}: Props) {
+function ListContextProvider({ children }: Props) {
   const [list, setList] = useState<Results[]>([] as Results[])
   const [seed, setSeed] = useState('')
   const [rows, setRows] = useState<tableRow[]>([] as tableRow[])
@@ -39,15 +39,15 @@ function ListContextProvider({children}: Props) {
       name: `${user.name.first} ${user.name.last}`,
       gender: user.gender,
       birth: new Date(user.dob.date).toLocaleDateString(),
-      actions: {seed: seed, id: user.login.uuid},
+      actions: { seed: seed, id: user.login.uuid }
     }))
   const getApi = async (page: number) => {
-    const {data} = await api.get<ApiResponse>('/', {
+    const { data } = await api.get<ApiResponse>('/', {
       params: {
         results: 50,
         page: page,
-        seed: seed,
-      },
+        seed: seed
+      }
     })
     setSeed(data.info.seed)
     setList([...list, ...data.results])
@@ -70,10 +70,10 @@ function ListContextProvider({children}: Props) {
   }, [])
 
   return (
-    <ListContext.Provider value={{list, seed, rows, nextPage, handleFilter}}>
+    <ListContext.Provider value={{ list, seed, rows, nextPage, handleFilter }}>
       {children}
     </ListContext.Provider>
   )
 }
 
-export {ListContext, ListContextProvider}
+export { ListContext, ListContextProvider }

@@ -1,11 +1,10 @@
-import {ListContextProvider} from 'context/ListContext'
-import React from 'react'
+import { ListContextProvider } from 'context/ListContext'
 import * as H from 'history'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useLocation,
+  useLocation
 } from 'react-router-dom'
 import Home from 'views/Home'
 import Profile from 'views/Profile'
