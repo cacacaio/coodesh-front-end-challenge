@@ -2,7 +2,7 @@ import {Button} from '@material-ui/core'
 import {GridColDef} from '@material-ui/data-grid'
 import * as h from 'history'
 
-export const useColumns = (history: h.History) => {
+export const getColumns = (history: h.History) => {
   const columns: GridColDef[] = [
     {
       field: 'name',
