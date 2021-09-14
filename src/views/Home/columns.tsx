@@ -1,5 +1,5 @@
-import { Button } from '@material-ui/core'
-import { GridColDef } from '@material-ui/data-grid'
+import {Button} from '@material-ui/core'
+import {GridColDef} from '@material-ui/data-grid'
 import * as h from 'history'
 
 export const useColumns = (history: h.History) => {
@@ -11,7 +11,7 @@ export const useColumns = (history: h.History) => {
       cellClassName: 'cell',
       headerClassName: 'columnHeaders',
       headerAlign: 'center',
-      disableColumnMenu: true
+      disableColumnMenu: true,
     },
     {
       field: 'gender',
@@ -21,7 +21,7 @@ export const useColumns = (history: h.History) => {
       headerClassName: 'columnHeaders',
       align: 'center',
       headerAlign: 'center',
-      disableColumnMenu: true
+      disableColumnMenu: true,
     },
     {
       field: 'birth',
@@ -31,7 +31,7 @@ export const useColumns = (history: h.History) => {
       headerClassName: 'columnHeaders',
       align: 'center',
       headerAlign: 'center',
-      disableColumnMenu: true
+      disableColumnMenu: true,
     },
     {
       field: 'actions',
@@ -48,11 +48,12 @@ export const useColumns = (history: h.History) => {
           color="primary"
           onClick={() =>
             history.push(`/profile/${params.value.seed}/${params.value.id}`)
-          }>
-          Visualizar
+          }
+        >
+          Open Modal
         </Button>
-      )
-    }
+      ),
+    },
   ]
   return columns
 }

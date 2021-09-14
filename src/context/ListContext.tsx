@@ -7,7 +7,7 @@ type ContextType = {
   list: Results[]
   nextPage: () => Promise<void>
   rows: tableRow[]
-  handleFilter: (value: string) => void
+  handleFilter: (filters: filters) => void
 }
 
 type Props = {
@@ -25,6 +25,11 @@ type tableRow = {
 type actions = {
   seed: string
   id: string
+}
+
+type filters = {
+  name: string
+  gender: string
 }
 
 const ListContext = createContext<ContextType>({} as ContextType)
@@ -62,11 +67,15 @@ function ListContextProvider({children}: Props) {
     await getApi(nextPage)
   }
 
-  const handleFilter = (value: string) => {
-    const filtered = mapRows(list, seed).filter((v) =>
-      v.name.toLowerCase().includes(value.toLowerCase())
+  const handleFilter = ({name, gender}: filters) => {
+    const filteredName = mapRows(list, seed).filter((v) =>
+      v.name.toLowerCase().includes(name.toLowerCase())
     )
-    setRows(filtered)
+    const filteredGender =
+      gender !== ''
+        ? filteredName.filter((v) => v.gender === gender)
+        : filteredName
+    setRows(filteredGender)
   }
 
   useEffect(() => {
