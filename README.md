@@ -19,4 +19,4 @@ Projeto feito para a empresa Pharma Inc. vista a necessidade de filtrarem e visu
 3. Rode yarn start ou npm start
 
 
-> Challenge Front End React Coodesh https://lab.coodesh.com/cacaioassuncao/front-end-challenge-2021/-/tree/master/
+> Challenge Front End React Coodesh
